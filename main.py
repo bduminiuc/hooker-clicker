@@ -4,19 +4,55 @@ import pyautogui
 import csv
 from pyhooked import Hook, MouseEvent, KeyboardEvent
 
+actions = []
+
+
+
 def writer(logfile):
+    global actions
+    
     def hook_mouse(args):
         if isinstance(args, MouseEvent):
-            #print(args)
-            pass
+            coords = pyautogui.position()
+            mouse_x = coords[0]
+            mouse_y = coords[1]
+
+            actions.append(
+                {
+                    'mouse_x': mouse_x,
+                    'mouse_y': mouse_y,
+                    'event_type': args.event_type
+                 }
+            )
+
+            len_actions = len(actions)
+            
+            if len_actions % 2 == 0:
+                last = actions.pop()
+                print(last)
+                prelast = actions.pop()
+                print(prelast)
+
+                if last['mouse_x'] == prelast['mouse_x']:
+                    if last['mouse_y'] == prelast['mouse_y']:
+                        print("Click found")
+                        actions.append(
+                            {
+                                'mouse_x' : last['mouse_x'],
+                                'mouse_y' : last['mouse_y'],
+                                'action' : 'click'
+                            }
+                        )
+            
+            
         if isinstance(args, KeyboardEvent):
-        #заканчивать по нажатию клавиши
             if args.current_key == 'Q' and args.event_type == 'key down' and 'Lcontrol' in args.pressed_key:
                 hk.stop()
 
     hk = Hook()
     hk.handler = hook_mouse
     hk.hook(mouse=True)
+    print(actions)
     
     with open(logfile, 'w') as csvfile:
         fieldnames = ['mouse_x', 'mouse_y', 'action']
@@ -24,7 +60,7 @@ def writer(logfile):
 
         writer.writeheader()
         writer.writerow({'mouse_x': '0', 'mouse_y': '50', 'action':'click'})
-        writer.writerow({'mouse_x': '10', 'mouse_y': '220', 'action':'click'})
+        writer.writerow({'mouse_x': '10', 'mouse_y': '220', 'action':'dbclick'})
         writer.writerow({'mouse_x': '500', 'mouse_y': '450', 'action':'click'})
     
 
