@@ -6,7 +6,18 @@ from pyhooked import Hook, MouseEvent, KeyboardEvent
 
 actions = []
 
+class ActionRepeater:
 
+    self.actions = []
+
+    def __init(self, info_file="temp.csv"):
+        self.info_file = info_file
+    
+    def write(self):
+        pass
+
+    def repeat(self):
+        pass
 
 def writer(logfile):
     global actions
