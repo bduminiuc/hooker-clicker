@@ -9,10 +9,12 @@ def writer(logfile):
         if isinstance(args, MouseEvent):
             #print(args)
             pass
+        #if isinstance(args, KeyboardEvent):
+        #заканчивать по нажатию клавиши
 
     hk = Hook()
     hk.handler = hook_mouse
-    hk.hook(mouse=True, keyboard=False)"""
+    hk.hook(mouse=True)"""
     with open(logfile, 'w') as csvfile:
         fieldnames = ['mouse_x', 'mouse_y', 'action']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -27,9 +29,10 @@ def clicker(logfile):
     with open(logfile, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            print(row['mouse_x'], row['mouse_y'], row['action'])
-            #if row != []:
-             #   print("".join(row))
+            mouse_x = int(row['mouse_x'])
+            mouse_y = int(row['mouse_y'])
+            action = row['action']
+            pyautogui.moveTo(mouse_x, mouse_y, duration=0.25)
 
 def argsInit():
     argparser = argparse.ArgumentParser(
