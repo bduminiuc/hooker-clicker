@@ -2,26 +2,29 @@
 import argparse
 import pyautogui
 import csv
-from pyhooked import Hook, MouseEvent
+from pyhooked import Hook, MouseEvent, KeyboardEvent
 
 def writer(logfile):
-    """def hook_mouse(args):
+    def hook_mouse(args):
         if isinstance(args, MouseEvent):
             #print(args)
             pass
-        #if isinstance(args, KeyboardEvent):
+        if isinstance(args, KeyboardEvent):
         #заканчивать по нажатию клавиши
+            if args.current_key == 'Q' and args.event_type == 'key down' and 'Lcontrol' in args.pressed_key:
+                hk.stop()
 
     hk = Hook()
     hk.handler = hook_mouse
-    hk.hook(mouse=True)"""
+    hk.hook(mouse=True)
+    
     with open(logfile, 'w') as csvfile:
         fieldnames = ['mouse_x', 'mouse_y', 'action']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         writer.writerow({'mouse_x': '0', 'mouse_y': '50', 'action':'click'})
-        writer.writerow({'mouse_x': '100', 'mouse_y': '200', 'action':'dbclick'})
+        writer.writerow({'mouse_x': '10', 'mouse_y': '220', 'action':'click'})
         writer.writerow({'mouse_x': '500', 'mouse_y': '450', 'action':'click'})
     
 
@@ -32,7 +35,12 @@ def clicker(logfile):
             mouse_x = int(row['mouse_x'])
             mouse_y = int(row['mouse_y'])
             action = row['action']
-            pyautogui.moveTo(mouse_x, mouse_y, duration=0.25)
+            pyautogui.moveTo(mouse_x, mouse_y, duration=0.5)
+            
+            if row['action'] == 'click':
+                pyautogui.click()
+            elif row['action'] == 'dbclick':
+                pyautogui.doubleClick()
 
 def argsInit():
     argparser = argparse.ArgumentParser(

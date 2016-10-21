@@ -1,4 +1,4 @@
 mouse_x,mouse_y,action
 0,50,click
-100,200,dbclick
+10,220,click
 500,450,click
