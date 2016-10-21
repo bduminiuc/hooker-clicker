@@ -1,2 +1,0 @@
-0;0;click
-300;300;dbclick

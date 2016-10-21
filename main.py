@@ -4,22 +4,32 @@ import pyautogui
 import csv
 from pyhooked import Hook, MouseEvent
 
-def writer():
-    def hook_mouse(args):
+def writer(logfile):
+    """def hook_mouse(args):
         if isinstance(args, MouseEvent):
             #print(args)
             pass
 
     hk = Hook()
     hk.handler = hook_mouse
-    hk.hook(mouse=True, keyboard=False)
+    hk.hook(mouse=True, keyboard=False)"""
+    with open(logfile, 'w') as csvfile:
+        fieldnames = ['mouse_x', 'mouse_y', 'action']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        writer.writerow({'mouse_x': '0', 'mouse_y': '50', 'action':'click'})
+        writer.writerow({'mouse_x': '100', 'mouse_y': '200', 'action':'dbclick'})
+        writer.writerow({'mouse_x': '500', 'mouse_y': '450', 'action':'click'})
     
 
 def clicker(logfile):
     with open(logfile, newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=';')
+        reader = csv.DictReader(csvfile)
         for row in reader:
-            print(" ".join(row))
+            print(row['mouse_x'], row['mouse_y'], row['action'])
+            #if row != []:
+             #   print("".join(row))
 
 def argsInit():
     argparser = argparse.ArgumentParser(
