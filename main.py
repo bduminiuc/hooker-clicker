@@ -8,15 +8,29 @@ actions = []
 
 class ActionRepeater:
 
-    self.actions = []
+    actions = []
 
-    def __init(self, info_file="temp.csv"):
+    def __init__(self, info_file="temp.csv"):
         self.info_file = info_file
     
-    def write(self):
+    def write(self, useKeyboard=False):
+        def __writeFile__(self, filename):
+            pass
+        
+        def __hook__(self, HookEvent):
+            pass
+
+        def __isClick__(self, tpl_twoActions):
+            pass
+
+        def __isDbClick__(self, tpl_fourActions):
+            pass
+        
         pass
 
-    def repeat(self):
+    def repeat(self, count):
+        def __readFile__(self, filename):
+            pass
         pass
 
 def writer(logfile):
@@ -97,17 +111,30 @@ def argsInit():
         "-c", "--count",
         type=int,
         default=1,
-        help="Means how many times to repeat")
+        help="Means how many times to repeat. Min value = 1 and Max value = Inf")
     group.add_argument(
         "-w", "--write",
         action="store_true",
         help="Add it if you want to write actions")
+
+    argparser.add_argument(
+        "-f", "--filename",
+        type=str,
+        default="temp.csv",
+        help="Name of file to write")
+    argparser.add_argument(
+        "-k", "--keyboard",
+        action="store_true",
+        help="Use it if you want to catch the keyboard events")
+    #add subparsers
     return argparser.parse_args()
 
 if __name__ == "__main__":
     logfile = "log.csv"
     args = argsInit()
-    if args.write:
+    print(args)
+    """if args.write:
         writer(logfile)
     else:
         clicker(logfile)
+"""
