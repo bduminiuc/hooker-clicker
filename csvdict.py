@@ -23,17 +23,17 @@ class CSVdict:
             print("error")
 
     def get(self):
-        string = ""
+        actions = []
         try:
             with open(self.name, newline='') as csvfile:
                 reader = DictReader(csvfile)
                 for row in reader:
-                    string = string + str(row) + "\n"
+                    actions.append(row)
 
         except FileNotFoundError:
             print("No such file:", self.name)
 
-        return string[:-1]
+        return actions
 
 
 if __name__ == "__main__":
