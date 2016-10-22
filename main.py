@@ -6,6 +6,11 @@ from pyhooked import Hook, MouseEvent, KeyboardEvent
 
 actions = []
 
+class CSVfile:
+
+    def __init__(self, name):
+        self.name = name
+
 class ActionRepeater:
 
     actions = []
@@ -104,29 +109,32 @@ def clicker(logfile):
                 pyautogui.doubleClick()
 
 def argsInit():
+    # top-level parser
     argparser = argparse.ArgumentParser(
-        description="")
-    group = argparser.add_mutually_exclusive_group()
-    group.add_argument(
-        "-c", "--count",
-        type=int,
-        default=1,
-        help="Means how many times to repeat. Min value = 1 and Max value = Inf")
-    group.add_argument(
-        "-w", "--write",
-        action="store_true",
-        help="Add it if you want to write actions")
+        description="A simple write/execute user actions repeater.")
+    subparsers = argparser.add_subparsers(title='Subcommands',
+                                          description='Valid subcommands',
+                                          help='Additional help')
 
-    argparser.add_argument(
-        "-f", "--filename",
-        type=str,
-        default="temp.csv",
-        help="Name of file to write")
-    argparser.add_argument(
-        "-k", "--keyboard",
-        action="store_true",
-        help="Use it if you want to catch the keyboard events")
-    #add subparsers
+    # parser for 'write' command
+    parser_write = subparsers.add_parser('write',
+                            description='Command is used for writting user actions')
+    argparser.add_argument('-f', '--filename',
+                              type=str,
+                              default='temp.csv',
+                              help='Name of file to write')
+    parser_write.add_argument('-k', '--keyboard',
+                              action='store_true',
+                              help='Use it if you want to catch the keyboard events')
+
+    # parser for 'exec' command
+    parser_exec = subparsers.add_parser('exec',
+                            help='Command for *.csv file executing')
+    parser_exec.add_argument('-c', '--count',
+                             type=int,
+                             default=1,
+                             help='Means how many times to repeat. Min value = 1 and Max value = Inf')
+    
     return argparser.parse_args()
 
 if __name__ == "__main__":
