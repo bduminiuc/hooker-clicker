@@ -37,14 +37,4 @@ class CSVdict:
 
 
 if __name__ == "__main__":
-    filename = "temp.csv"
-    fieldnames = ['mouse_x', 'mouse_y', 'action']
-    csvfile = CSVdict(filename)
-    actions = [
-        {'mouse_x': '100', 'mouse_y': '100', 'action':'click'},
-        {'mouse_x': '200', 'mouse_y': '200', 'action':'dbclick'},
-        {'mouse_x': '300', 'mouse_y': '300', 'action':'click'}
-    ]
-    
-    csvfile.write(fieldnames, actions)
-    print(csvfile.get())
+    print("Here is CSVdict class for get csv-dict by name or write it")
