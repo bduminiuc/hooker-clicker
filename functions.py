@@ -24,19 +24,3 @@ def __is_equaled_coord__(lparam, rparam):
         if lparam['mouse_y'] == rparam['mouse_y']:
             return True
     return False
-
-
-# являются ли 4 последних действия двойными кликами
-def __is_double_click__(four_actions):
-    first = __is_click__([
-        four_actions.pop(),
-        four_actions.pop()])
-
-    second = __is_click__([
-        four_actions.pop(),
-        four_actions.pop()])
-
-    if first and second:
-        if __is_equaled_coord__(first, second):
-            return __get_dict__(first, 'double_click')
-    return False
