@@ -60,3 +60,5 @@ if __name__ == "__main__":
         actions = CsvDict(args.filename).get()
         for action in actions:
             print(action)
+
+    input("Press Enter...")
