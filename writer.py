@@ -2,46 +2,39 @@
 import pyautogui
 from csv_dict import CsvDict
 from pyhooked import Hook, MouseEvent, KeyboardEvent
-from functions import __is_click__, __is_double_click__
+from functions import __is_click__
 
-actions = []
+temp_actions = []
+clicks = []
 
 
-def write(file_to="temp.csv", use_keyboard=False):
-    def __parse_actions__():
-        length = len(actions)
-        if length % 2 == 0:
-            maybe_click = []
-            is_click = False
-
-            i = 4 if length % 4 else 2
-
-            for j in range(i):
-                maybe_click.append(actions.pop())
-
-                if length % 4 == 0:
-                    is_click = __is_double_click__(maybe_click)
-                else:
-                    is_click = __is_click__(maybe_click)
-
-                if is_click:
-                    actions.append(is_click)
-                else:
-                    for j in maybe_click:
-                        actions.append(j)
-
+def write(file_to="temp.csv"):
     def __hook__(args):
         if isinstance(args, MouseEvent):
+            print(args)
             coord = pyautogui.position()
             mouse_x = coord[0]
             mouse_y = coord[1]
-            actions.append(
+            temp_actions.append(
                 {
                     'mouse_x': mouse_x,
                     'mouse_y': mouse_y,
                     'event_type': args.event_type
                 }
             )
+
+            length = len(temp_actions)
+
+            if length % 2 == 0 and length > 0:
+                is_click = False
+
+                two_actions = [temp_actions.pop(),temp_actions.pop()]
+
+                is_click = __is_click__(two_actions)
+                if is_click:
+                    print("here found click")
+                    clicks.append(is_click)
+
         if isinstance(args, KeyboardEvent):
             if args.current_key == 'Q' and args.event_type == 'key down' and 'Lcontrol' in args.pressed_key:
                 hk.stop()
@@ -52,28 +45,28 @@ def write(file_to="temp.csv", use_keyboard=False):
     hk.hook(mouse=True)
 
     fieldnames = ['mouse_x', 'mouse_y', 'action']
-    __parse_actions__()
-    CsvDict(file_to).write(fieldnames, actions)
-    print(actions)
+    CsvDict(file_to).write(fieldnames, clicks)
+    print(clicks)
     # end write
 
 
-def repeat(count, file_from="temp.csv"):
+def repeat(file_from="temp.csv", count=1, duration=0.5):
     ls_actions = CsvDict(file_from).get()
 
-    for action in ls_actions:
-        mouse_x = int(action['mouse_x'])
-        mouse_y = int(action['mouse_y'])
-        current_action = action['action']
+    for i in range(count):
+        for action in ls_actions:
+            mouse_x = int(action['mouse_x'])
+            mouse_y = int(action['mouse_y'])
+            current_action = action['action']
 
-        pyautogui.moveTo(mouse_x, mouse_y, duration=0.3)
+            pyautogui.moveTo(mouse_x, mouse_y, duration=duration)
 
-        if current_action == 'click':
-            pyautogui.click()
-        elif current_action == 'double_click':
-            pyautogui.doubleClick()
+            if current_action == 'click':
+                pyautogui.click()
+            elif current_action == 'double_click':
+                pyautogui.doubleClick()
 
 
 if __name__ == "__main__":
-    write()
-    # repeat(2)
+    # write()
+    repeat()
