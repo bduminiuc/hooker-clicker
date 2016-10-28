@@ -2,31 +2,33 @@
 from csv import DictReader, DictWriter
 
 """
-Class provides methods used for writting and
+Class provides methods used for writing and
 getting values of csv file as a dict.
 """
-class CSVdict:
+
+
+class CsvDict:
 
     def __init__(self, name):
         self.name = name
 
     def write(self, fieldnames, actions):
         try:
-            with open(self.name, "w") as csvfile:
-                writer = DictWriter(csvfile, fieldnames=fieldnames)
+            with open(self.name, "w") as csv_file:
+                writer = DictWriter(csv_file, fieldnames=fieldnames)
                 writer.writeheader()
 
                 for action in actions:
                     writer.writerow(action)
 
-        except Error:
-            print("error")
+        except Exception as e:
+            print(e.args)
 
     def get(self):
         actions = []
         try:
-            with open(self.name, newline='') as csvfile:
-                reader = DictReader(csvfile)
+            with open(self.name, newline='') as csv_file:
+                reader = DictReader(csv_file)
                 for row in reader:
                     actions.append(row)
 
@@ -37,4 +39,4 @@ class CSVdict:
 
 
 if __name__ == "__main__":
-    print("Here is CSVdict class for get csv-dict by name or write it")
+    pass
