@@ -68,5 +68,4 @@ def repeat(file_from="temp.csv", count=1, duration=0.5):
 
 
 if __name__ == "__main__":
-    # write()
-    repeat()
+    pass

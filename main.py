@@ -12,12 +12,6 @@ def clicker(args):
     repeat(args.filename, args.count, args.duration)
 
 
-"""
-    AR = ActionRepeater(args.filename)
-    AR.repeat(args.count)
-"""
-
-
 def args_init():
     # top-level parser
     arg_parser = ArgumentParser(description="A simple write/execute user actions repeater.")
