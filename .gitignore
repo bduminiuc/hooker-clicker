@@ -2,7 +2,7 @@
 *.csv
 
 # ignore cache-folder
-/__pycache__
+*__pycache__*
 
 # ignore temp folders
 /.*

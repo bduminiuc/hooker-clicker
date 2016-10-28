@@ -1,7 +1,8 @@
 # coding: utf-8
 from argparse import ArgumentParser
-from csv_dict import CsvDict
+
 from writer import write, repeat
+from writer.csv_dict import CsvDict
 
 
 def writer(args):

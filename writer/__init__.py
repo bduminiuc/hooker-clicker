@@ -1,8 +1,8 @@
 # coding: utf-8
 import pyautogui
-from csv_dict import CsvDict
 from pyhooked import Hook, MouseEvent, KeyboardEvent
-from functions import __is_click__
+from writer.csv_dict import CsvDict
+from writer.functions import __is_click__
 
 temp_actions = []
 clicks = []
